@@ -11,7 +11,7 @@ public protocol JSONOriginatedObject {
 public class JSONCache {
     public static let appDirCache = JSONCache()
     public let fileManager  = FileManager()
-    let cachePath: String
+    public let cachePath: String
     
     /// Print debug message if true
     public var verbose: Bool = false
