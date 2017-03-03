@@ -14,7 +14,7 @@ public class JSONCache {
     let cachePath: String
     
     /// Print debug message if true
-    var verbose: Bool = false
+    public var verbose: Bool = false
     
     public enum CacheError:Error {
         case cacheCreationError
