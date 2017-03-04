@@ -3,7 +3,7 @@ import Foundation
 // JSON cache
 
 public protocol JSONOriginatedObject {
-    typealias JSONSource = [String:AnyObject]
+    typealias JSONSource = [String:Any]
     var json: JSONSource { get }
     init?(json: JSONSource)
 }
