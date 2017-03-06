@@ -87,6 +87,15 @@ public class JSONCache {
         return nil
     }
     
+    public func delete(id: String) throws {
+        let url = URL(fileURLWithPath: cachePath(for: id) )
+        try fileManager.removeItem(at: url)
+    }
+    
+    public func listCachedFiles() throws -> [String]  {
+        return try fileManager.contentsOfDirectory(atPath: cachePath)
+    }
+    
     public func isCacheValid(id: String, validityInterval: TimeInterval) -> Bool {
         let attributes = try? fileManager.attributesOfItem(atPath: cachePath(for: id))
         if let attributes = attributes, let creationDate = attributes[.modificationDate] as? Date {
