@@ -96,10 +96,17 @@ public class JSONCache {
         return try fileManager.contentsOfDirectory(atPath: cachePath)
     }
     
-    public func isCacheValid(id: String, validityInterval: TimeInterval) -> Bool {
+    public func cacheModificationDate(id: String) -> Date? {
         let attributes = try? fileManager.attributesOfItem(atPath: cachePath(for: id))
-        if let attributes = attributes, let creationDate = attributes[.modificationDate] as? Date {
-            let age = Date().timeIntervalSince(creationDate)
+        if let attributes = attributes, let modificationDate = attributes[.modificationDate] as? Date {
+            return modificationDate
+        }
+        return nil
+    }
+    
+    public func isCacheValid(id: String, validityInterval: TimeInterval) -> Bool {
+        if let modificationDate = cacheModificationDate(id: id) {
+            let age = Date().timeIntervalSince(modificationDate)
             if age < validityInterval {
                 if verbose {
                     print("[Debug JSON cache] Valid cache for id: \(id) with age: \(age)s")
@@ -111,5 +118,4 @@ public class JSONCache {
         }
         return false
     }
-    
 }
