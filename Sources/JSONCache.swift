@@ -62,7 +62,11 @@ public class JSONCache {
         try prepareCacheDir()
         let jsonData = try JSONSerialization.data(withJSONObject: object.json as Any, options: [])
         do {
-            try jsonData.write(to: URL(fileURLWithPath: cachePath(for: id) ))
+            // Delete the previous file first to update the modification date
+            // (don't catch the error, as a non existing file would trigger it in all cases)
+            try? self.delete(id: id)
+            let path = cachePath(for: id)
+            try jsonData.write(to: URL(fileURLWithPath: path ))
             if verbose {
                 print("[Debug JSON cache] Cache created for id \(id)")
             }
